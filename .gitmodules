@@ -1,0 +1,3 @@
+[submodule "fossil-source"]
+	path = fossil-source
+	url = https://github.com/drhsqlite/fossil-mirror.git
