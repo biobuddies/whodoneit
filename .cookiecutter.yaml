@@ -1,0 +1,7 @@
+default_context:
+    languages: Node,Python
+    publish_to_pypi: true
+    python_dependencies:
+        - allowedflare
+        - django-plugin-field-day @ git+https://github.com/biobuddies/django-plugin-field-day.git
+        - gunicorn
