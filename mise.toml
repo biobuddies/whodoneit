@@ -1,0 +1,22 @@
+# Adapted from .config/mise.toml tasks.build: PyPI rejects plain linux wheels
+[tasks.build]
+run = '''
+#!/usr/bin/env bash
+set -o errexit -o nounset -o pipefail
+rm -rf dist
+uv build
+uvx --with=patchelf auditwheel repair --wheel-dir=dist dist/*-linux_*.whl
+rm dist/*-linux_*.whl
+uv publish --dry-run dist/*
+uvx twine check --strict dist/*
+'''
+
+# dup .config/mise.toml tasks.test, adding depends
+[tasks.test]
+depends = ['build']
+run = '''
+#!/usr/bin/env bash
+set -o errexit -o nounset -o pipefail
+python -m pytest --cov${PYTEST_COV-} \
+    --cov-report=term-missing:skip-covered --verbose "$@"
+'''
